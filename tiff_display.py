@@ -17,7 +17,7 @@ import os, sys
 import numpy as np
 
 # user packages
-from open_multipage_tiff import OpenMultipageTiff as omf
+from open_multipage_tiff import open_multipage_tiff as omf
 
 
 def main(argv):

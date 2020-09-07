@@ -20,7 +20,7 @@ def main():
     save_path = os.path.join('data', 'black_T.mp4')
     save_flag = True
 
-    image = omt.OpenMultipageTiff(image_path)
+    image = omt.open_multipage_tiff(image_path)
     if save_flag:
         fourcc = cv2.VideoWriter_fourcc(*'mp4v')
         out = cv2.VideoWriter(save_path, fourcc, 30.0, image.shape[:-1][::-1], 0)

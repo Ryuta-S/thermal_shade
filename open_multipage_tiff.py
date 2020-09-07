@@ -14,12 +14,12 @@ def main(argv):
     else:
         image_path = argv[1]
         save_path = argv[2]
-    # OpenMultipageTiff(image_path)
+    # open_multipage_tiff(image_path)
     convert_tiff_to_mp4(image_path, save_path)
 
 
 
-def OpenMultipageTiff(image_path):
+def open_multipage_tiff(image_path):
     """ マルチページTiffをnumpy.arrayにして返す．
 
     Args:
@@ -59,7 +59,7 @@ def convert_tiff_to_mp4(image_path, save_path):
         save_path: 変換したmp4ファイルを保存するパス
     """
     # フレーム列を取得
-    imgs = OpenMultipageTiff(image_path)
+    imgs = open_multipage_tiff(image_path)
 
     # 保存するためのwriter等の定義
     fourcc = cv2.VideoWriter_fourcc(*'mp4v')
