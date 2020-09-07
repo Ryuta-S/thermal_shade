@@ -4,11 +4,13 @@ import matplotlib.pyplot as plt
 
 
 def main():
+    """ .npyファイルで保存されたデータから，グラフをプロットする．
+    """
 
-    load_path_1 = "input/plot_graph/sun_vals.npy"
-    load_path_2 = "input/plot_graph/non_sun_vals.npy"
+    load_path_1 = "data/0000_0829/sun_vals.npy"
+    load_path_2 = "data/0000_0829/non_sun_vals.npy"
 
-    output_path = 'output/plot_graph/Boson_Capture_3.png'
+    output_path = 'data/0000_0829/Boson_Capture_3.png'
 
 
     sun_vals = np.load( load_path_1 )

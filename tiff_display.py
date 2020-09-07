@@ -17,17 +17,17 @@ import os, sys
 import numpy as np
 
 # user packages
-from open_multipage_tiff import open_multipage_tiff as omf
-
+#from open_multipage_tiff import open_multipage_tiff as omf
+import open_multipage_tiff as omt
 
 def main(argv):
     # Get the filename
     filename = sg.popup_get_file('表示したいファイル',
-                                 default_path=os.path.join('data', 'Boson_Capture.tiff'),
+                                 default_path=os.path.join('data', '0000_0829/0000.tiff'),
                                  file_types=(('Tiff Files', '.tiff'), ))
     if filename is None:
         return
-    imgs = omf(filename)
+    imgs = omt.open_multipage_tiff(filename)
 
     # Get some Stats
     num_frames = imgs.shape[2]
@@ -80,8 +80,7 @@ def main(argv):
         # 表示するフレームを取得
         frame = imgs[:, :, cur_frame]
         if norm_flag:
-            frame = (frame - frame.min()) / (frame.max() - frame.min()) * 255
-            frame = frame.astype(np.uint8)
+            frame = omt.convert_16bit_to_8bit(frame)
         slider_elem.update(cur_frame)
         imgbytes = cv2.imencode('.png', frame)[1].tobytes()
         image_elem.update(data=imgbytes)

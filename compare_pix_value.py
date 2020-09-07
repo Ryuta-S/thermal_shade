@@ -15,9 +15,8 @@ q押下：終了
 
 def main():
 
-    image_path = "../../../thermal_shade/images/Boson_Capture_4.tiff"
-    image_path = os.path.join('data', 'Boson_Capture_4 2.tiff')
-    save_path = os.path.join('data', 'black_T.mp4')
+    image_path = os.path.join('data', '0000_0829/0000.tiff')
+    save_path = os.path.join('data', '0000_0829/black_T.mp4')
     save_flag = True
 
     image = omt.open_multipage_tiff(image_path)
@@ -58,7 +57,7 @@ def main():
         ROI_A = img[y:y+h, x:x+w]
         ROI_B = img[y:y+h, x+dx+w :x+ (2*w)+dx]
 
-        im = (img-img.min()) / (img.max()-img.min()) * 255
+        im = omt.convert_16bit_to_8bit(img)
 
         font = cv2.FONT_HERSHEY_SIMPLEX
         cv2.rectangle(im, (x, y), (x+w,y+h), 255)
@@ -73,10 +72,10 @@ def main():
         print("ROI_B mean = " + str(math.floor(ROI_B.mean())) + "\n")
 
 
-        cv2.imshow('image',im.astype(np.uint8))
+        cv2.imshow('image',im)
         key = cv2.waitKey(3)&0xff
         if save_flag:
-            out.write(im.astype(np.uint8))
+            out.write(im)
 
 
 
@@ -88,8 +87,8 @@ def main():
         sun_vals.append(math.floor(ROI_A.mean()))
         non_sun_vals.append(math.floor(ROI_B.mean()))
 
-    np.save('output/compare_pix_value/sun_vals_' + os.path.basename(image_path).split('.')[0],sun_vals)
-    np.save('output/compare_pix_value/non_sun_vals_' + os.path.basename(image_path).split('.')[0],non_sun_vals)
+    np.save('data/0000_0829/sun_vals_' + os.path.basename(image_path).split('.')[0],sun_vals)
+    np.save('data/0000_0829/non_sun_vals_' + os.path.basename(image_path).split('.')[0],non_sun_vals)
     out.release()
 
 

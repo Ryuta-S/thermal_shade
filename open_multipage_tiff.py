@@ -10,7 +10,7 @@ from tqdm import tqdm
 def main(argv):
 
     if len(argv) == 1:
-        image_path = 'Boson_Capture.tiff'
+        image_path = '0000.tiff'
     else:
         image_path = argv[1]
         save_path = argv[2]
@@ -67,10 +67,14 @@ def convert_tiff_to_mp4(image_path, save_path):
 
     for i in range(imgs.shape[2]):
         frame = imgs[:, :, i]
-        frame = (frame - frame.min()) / (frame.max() - frame.min()) * 255
-        out.write(frame.astype(np.uint8))
-
+        #frame = (frame - frame.min()) / (frame.max() - frame.min()) * 255
+        #out.write(frame.astype(np.uint8))
+        out.write(convert_16bit_to_8bit(frame))
     out.release()
+
+def convert_16bit_to_8bit(image):
+    frame = (image - image.min()) / (image.max() - image.min()) * 255
+    return frame.astype(np.uint8)
 
 
 
