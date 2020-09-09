@@ -1,2 +1,5 @@
-src/data/
+*.jpg
+*.tiff
+*.mp4
+*.MOV
 __pycache__
