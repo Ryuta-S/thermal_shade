@@ -23,7 +23,7 @@ import open_multipage_tiff as omt
 def main(argv):
     # Get the filename
     filename = sg.popup_get_file('表示したいファイル',
-                                 default_path=os.path.join('data', '0000_0829/0000.tiff'),
+                                 default_path=os.path.join('data', '0001_0829/0000.tiff'),
                                  file_types=(('Tiff Files', '.tiff'), ))
     if filename is None:
         return
