@@ -2,4 +2,5 @@
 *.tiff
 *.mp4
 *.MOV
+*.png
 __pycache__
