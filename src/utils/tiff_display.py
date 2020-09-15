@@ -18,16 +18,17 @@ import numpy as np
 
 # user packages
 #from open_multipage_tiff import open_multipage_tiff as omf
-import open_multipage_tiff as omt
+import tiff_utils as tu
 
 def main(argv):
     # Get the filename
     filename = sg.popup_get_file('表示したいファイル',
-                                 default_path=os.path.join('data', '0001_0829/0000.tiff'),
+                                 default_path=os.path.join('..','..','data', '0006_0915','0000.tiff'),
                                  file_types=(('Tiff Files', '.tiff'), ))
     if filename is None:
         return
-    imgs = omt.open_multipage_tiff(filename)
+    imgs = tu.open_multipage_tiff(filename)
+    #imgs = np.load(filename)
 
     # Get some Stats
     num_frames = imgs.shape[2]
@@ -80,7 +81,7 @@ def main(argv):
         # 表示するフレームを取得
         frame = imgs[:, :, cur_frame]
         if norm_flag:
-            frame = omt.convert_16bit_to_8bit(frame)
+            frame = tu.convert_16bit_to_8bit(frame)
         slider_elem.update(cur_frame)
         imgbytes = cv2.imencode('.png', frame)[1].tobytes()
         image_elem.update(data=imgbytes)
