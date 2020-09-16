@@ -15,11 +15,13 @@ q押下：終了
 
 def main():
 
-    image_path = os.path.join('data', '0001_0829/0000.tiff')
-    save_path = os.path.join('data', '0001_0829/black_T.mp4')
+    image_path = os.path.join('..','data', '0006_0915','0000')
+    save_path = os.path.join('..','data', '0006_0915','white_T.mp4')
     save_flag = True
 
-    image = tu.open_multipage_tiff(image_path)
+    #image = tu.open_multipage_tiff(image_path)
+    image = tu.open_sequense_tiff(image_path)
+
     if save_flag:
         fourcc = cv2.VideoWriter_fourcc(*'mp4v')
         out = cv2.VideoWriter(save_path, fourcc, 30.0, image.shape[:-1][::-1], 0)
@@ -34,13 +36,13 @@ def main():
         img = image[:,:,i]
 
         #Boson_Capture_3
-        x = 60
-        w = 100
+        x = 130
+        w = 120
 
-        y = 160
-        h = 130
+        y = 200
+        h = 150
 
-        dx = 150
+        dx = 120
 
         """
         #Boson_Capture_4
@@ -57,14 +59,14 @@ def main():
         ROI_A = img[y:y+h, x:x+w]
         ROI_B = img[y:y+h, x+dx+w :x+ (2*w)+dx]
 
-        im = omt.convert_16bit_to_8bit(img)
+        im = tu.convert_16bit_to_8bit(img)
 
         font = cv2.FONT_HERSHEY_SIMPLEX
         cv2.rectangle(im, (x, y), (x+w,y+h), 255)
         cv2.rectangle(im, (x+dx+w, y), (x+(2*w)+dx, y+h),255)
 
-        cv2.putText(im,str(math.floor(ROI_A.mean())),(90, 140), font, 0.7,255,1,cv2.LINE_AA)
-        cv2.putText(im,str(math.floor(ROI_B.mean())),(370, 140), font, 0.7,255,1,cv2.LINE_AA)
+        cv2.putText(im,str(math.floor(ROI_A.mean())),(x,y), font, 0.7,255,1,cv2.LINE_AA)
+        cv2.putText(im,str(math.floor(ROI_B.mean())),(x+w+dx,y), font, 0.7,255,1,cv2.LINE_AA)
         cv2.putText(im,str(i),(20, 20), font, 1,255,1,cv2.LINE_AA)
 
         print("-------page " + str(i) + " ----------")
@@ -77,8 +79,6 @@ def main():
         if save_flag:
             out.write(im)
 
-
-
         if key == ord('q'):
             break
         elif key == ord('s'):
@@ -87,8 +87,12 @@ def main():
         sun_vals.append(math.floor(ROI_A.mean()))
         non_sun_vals.append(math.floor(ROI_B.mean()))
 
-    np.save('data/0000_0829/sun_vals_' + os.path.basename(image_path).split('.')[0],sun_vals)
-    np.save('data/0000_0829/non_sun_vals_' + os.path.basename(image_path).split('.')[0],non_sun_vals)
+    #np.save('data/0006_0925/sun_vals_' + os.path.basename(image_path).split('.')[0],sun_vals)
+    #np.save('data/0006_0925/non_sun_vals_' + os.path.basename(image_path).split('.')[0],non_sun_vals)
+    #np.save('../data/0006_0915/sun_vals_0001.npy',sun_vals)
+    #np.save('../data/0006_0915/non_sun_vals_0001.npy',non_sun_vals)
+    np.save('..','data', '0006_0915','sun_vals_0000.npy',sun_vals)
+    np.save('..','data', '0006_0915','non_sun_vals_0000.npy',non_sun_vals)
     out.release()
 
 
