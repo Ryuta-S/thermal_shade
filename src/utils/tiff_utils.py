@@ -60,7 +60,8 @@ def open_sequense_tiff(dir_path,npy_save = False):
     """ シーケンスTiffをnumpy.arrayにして返す．
 
     Args:
-        dir_path: シーケンスtiffが入っているフォルダのパス
+        dir_path: シーケンスtiffが入っているフォルダのパス  
+        npy_save: npyファイルとして1ファイルにまとめたいときのフラグ
     Return:
         画像の配列. [height][width][frame]
     """
