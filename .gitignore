@@ -4,3 +4,4 @@
 *.MOV
 *.png
 __pycache__
+.ipynb_checkpoints
