@@ -94,7 +94,8 @@ def main(argv):
         event, values = window.read(timeout=0)
         if event in ('Exit', None):
             break
-        
+
+        # 温度を求める式
         camera_temp = 42.3
         Ocal = -142.5463107245369 * camera_temp + 25603.74739193574
 
@@ -121,7 +122,7 @@ def main(argv):
 
         frame = tu.convert_16bit_to_8bit(frame)
         frame = cv2.resize(frame , (int(frame.shape[1] * zoom_level), int(frame.shape[0] * zoom_level)))
-        
+
 
 
 
@@ -131,12 +132,12 @@ def main(argv):
             colorbar = cv2.applyColorMap(colorbar.astype(np.uint8),cv2.COLORMAP_HOT)
         else:
             colorbar = get_gradation_2d(255, 0, 15, int(512 * zoom_level), False)
-            
+
         slider_elem.update(cur_frame)
         imgbytes = cv2.imencode('.png', frame)[1].tobytes()
         colorbar_bytes = cv2.imencode('.png', colorbar)[1].tobytes()
 
-        
+
         image_elem.update(data=imgbytes)
         colorbar_elem.update(data=colorbar_bytes)
         graph_elem.DrawImage(filename = "",data = imgbytes)
