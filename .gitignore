@@ -1,6 +1,12 @@
 *.jpg
 *.tiff
+*.tif
+*.npy
 *.mp4
 *.MOV
 *.png
+*.txt
+data/
+report/
 __pycache__
+*.gitignore
