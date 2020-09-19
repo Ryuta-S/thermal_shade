@@ -9,4 +9,8 @@
 data/
 report/
 __pycache__
+<<<<<<< HEAD
 *.gitignore
+=======
+.ipynb_checkpoints
+>>>>>>> 53797fbda6ba5f3948bd37886da9a9dac5cf746b

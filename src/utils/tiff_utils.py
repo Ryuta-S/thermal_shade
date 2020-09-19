@@ -4,6 +4,7 @@ import sys, os
 from PIL import Image
 from tqdm import tqdm
 import glob
+import matplotlib.pyplot as plt
 
 #[y座標][x座標][ページ番号]
 
@@ -45,7 +46,7 @@ def open_multipage_tiff(image_path):
     except EOFError:
         pass
 
-    
+
     print('loding done!!')
     FITC = np.array(FITC)
     print(FITC.shape)
@@ -60,25 +61,23 @@ def open_sequense_tiff(dir_path,npy_save = False):
     """ シーケンスTiffをnumpy.arrayにして返す．
 
     Args:
-        dir_path: シーケンスtiffが入っているフォルダのパス  
+        dir_path: シーケンスtiffが入っているフォルダのパス
         npy_save: npyファイルとして1ファイルにまとめたいときのフラグ
     Return:
         画像の配列. [height][width][frame]
     """
     image = []
 
-    file_names = glob.glob(dir_path + "\\*.tif")
-    for i in tqdm(range(len(file_names))):
-        #ファイル名昇順にした方がいい
-        file_names[i] = os.path.basename(file_names[i])
-        img = cv2.imread(dir_path + "\\" + file_names[i],-1)
+    file_names = sorted(glob.glob(os.path.join(dir_path, '*.tif')))
+    for fname in tqdm(file_names):
+        img =  cv2.imread(fname, -1)
         image.append(img)
 
     image = np.array(image)
     image = image.transpose(1,2,0)
 
     if npy_save == True:
-        np.save(dir_path + "\\0000.npy",image)
+        np.save(os.path.join(dir_path, '0000.npy'))
 
     return image
 
