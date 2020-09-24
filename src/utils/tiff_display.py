@@ -55,7 +55,7 @@ def main(argv):
 
     # define the window layout
     layout = [[sg.Text('Video Viewer', size=(15, 1), font='Helvetica 20')],
-              [sg.Image(filename="", key='image'),sg.Graph((500,500),(300,300),(100,100),key='graph'),sg.Image(filename="", key='colorbar'),sg.Column(col)],
+              [sg.Image(filename="", key='image'),sg.Image(filename="", key='colorbar'),sg.Column(col)],
               [sg.Slider(range=(0, num_frames-1),
                          size=(int(60 * zoom_level), 10), orientation='h', key='slider')],
               [sg.Button('Back', size=(7, 1), font='Helvetica 14'),
@@ -78,7 +78,6 @@ def main(argv):
     p2_temp_elem = window['p2_temp']
     p1_temp_elem = window['p1_temp']
     min_temp_elem = window['min_temp']
-    graph_elem = window['graph']
 
     colorbar = get_gradation_2d(255, 0, 15, int(512 * zoom_level), False)
     colorbar = cv2.applyColorMap(colorbar.astype(np.uint8),cv2.COLORMAP_HOT)
@@ -96,7 +95,7 @@ def main(argv):
             break
 
         # 温度を求める式
-        camera_temp = 42.3
+        camera_temp = 40.0
         Ocal = -142.5463107245369 * camera_temp + 25603.74739193574
 
 
@@ -118,7 +117,7 @@ def main(argv):
 
         # 表示するフレームを取得
         frame = imgs[:, :, cur_frame]
-        temp = Bcal / np.log((Rcal / (frame * 0.98 -Ocal)) + Fcal)
+        temp = Bcal / np.log((Rcal / (frame * 0.95 -Ocal)) + Fcal)
 
         frame = tu.convert_16bit_to_8bit(frame)
         frame = cv2.resize(frame , (int(frame.shape[1] * zoom_level), int(frame.shape[0] * zoom_level)))
@@ -140,7 +139,6 @@ def main(argv):
 
         image_elem.update(data=imgbytes)
         colorbar_elem.update(data=colorbar_bytes)
-        graph_elem.DrawImage(filename = "",data = imgbytes)
         max_temp_elem.update('--  ' + str(round(temp.max(),2)))
         p5_temp_elem.update('--  ' + str(round((temp.max()-temp.min())*5 / 6 + temp.min(),2)))
         p4_temp_elem.update('--  ' + str(round((temp.max()-temp.min())*4 / 6 + temp.min(),2)))
@@ -155,6 +153,17 @@ def main(argv):
 
 
 def get_gradation_2d(start, stop, width, height, is_horizontal):
+    """
+    概要: グラデーション画像を生成する関数
+    @param start: グラデーションの最初の値 int
+    @param stop: グラデーションの最後の値 int 
+    @param width: グラデーション画像の幅 int 
+    @param height: グラデーション画像の高さ int
+    @param is_horizontal: 縦にグラデーションするか bool
+    @return グラデーション画像 np.ndarray([])
+
+    """
+
     if is_horizontal:
         return np.tile(np.linspace(start, stop, width), (height, 1))
     else:
